@@ -19,4 +19,4 @@ svcpcbセットのCROMも作成できます
 
 <img width="1188" height="942" alt="svcpcba3" src="https://github.com/user-attachments/assets/0f46cc7c-e1b5-4706-bba6-3d8d0cde7705" />  
 
-[この記事の続き]([url](https://note.com/shigeshigeru/n/ne3dc6926a236))になってます
+[この記事の続き]([[url](https://note.com/shigeshigeru/n/ne3dc6926a236)](https://note.com/shigeshigeru/n/ne3dc6926a236))になってます
