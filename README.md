@@ -1,6 +1,8 @@
 このリポジトリではネオジオ末期に海賊版対策として発売されたJAMMA版用に  
 MVS(AES)版の平文データからJAMMA版メタルスラッグ5、SNK VS CAPCOMの  
 CROMを作成するのが目的です  
+[この記事の続き](https://note.com/shigeshigeru/n/ne3dc6926a236)になっております  
+
 CROM以外はMVS版の再利用で動作するので現状はその方針で行きます  
 
 デフォルトは**svcpcba**のセット用になります  
@@ -19,4 +21,4 @@ svcpcbセットのCROMも作成できます
 
 <img width="1188" height="942" alt="svcpcba3" src="https://github.com/user-attachments/assets/0f46cc7c-e1b5-4706-bba6-3d8d0cde7705" />  
 
-[この記事の続き](https://note.com/shigeshigeru/n/ne3dc6926a236)になっております
+
