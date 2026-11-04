@@ -7,4 +7,11 @@ CROM以外はMVS版の再利用で動作するので現状はその方針で行�
 **Steam版から抽出するならC7,C8の修正が必要です**  
 svcpcbセットのCROMも作成できます  
 
-動作するさせるBIOSはサンドイッチBIOSの作成が必要です
+動作するさせるBIOSはサンドイッチBIOSの作成が必要です  
+
+<img width="1188" height="941" alt="svcpcba1" src="https://github.com/user-attachments/assets/52b31f87-d160-477e-b527-904b6ca4cd6d" />  
+
+<img width="1188" height="941" alt="svcpcba2" src="https://github.com/user-attachments/assets/1da934c2-2c17-4ef7-9da9-a244bdf1639e" />  
+
+<img width="1188" height="942" alt="svcpcba3" src="https://github.com/user-attachments/assets/0f46cc7c-e1b5-4706-bba6-3d8d0cde7705" />  
+
