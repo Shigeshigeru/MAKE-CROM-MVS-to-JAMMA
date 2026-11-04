@@ -1,6 +1,6 @@
-このリポジトリではネオジオ末期に海賊版対策として発売されたJAMMA版用に  
-MVS(AES)版の平文データからJAMMA版メタルスラッグ5、SNK VS CAPCOMの  
-CROMを作成するのが目的です  
+このリポジトリではネオジオ末期に海賊版対策として発売された  
+JAMMA版メタルスラッグ5、SNK VS CAPCOM用に  
+MVS(AES)版の平文データからの専用CROMを作成するのが目的です    
 [この記事の続き](https://note.com/shigeshigeru/n/ne3dc6926a236)になっております  
 
 CROM以外はMVS版の再利用で動作するので現状はその方針で行きます  
