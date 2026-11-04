@@ -1,5 +1,5 @@
 /*
- * svcenc - SNK vs. Capcom SVC Chaos
+ * svcenc - SNK vs. Capcom SVC Chaos / Metal Slug 5
  *   plaintext C-ROM  ->  JAMMA PCB (NEO-MVH MVO) encrypted C-ROM
  *
  * MAME's svcpcb init does:   stored --svcpcb_gfx_decrypt--> --cmc50_gfx_decrypt(key)--> plaintext
@@ -15,7 +15,7 @@ typedef uint8_t u8;
 typedef uint32_t u32;
 
 #define SPR_SIZE 0x4000000u   /* 64MB */
-#define TAIL_SIZE 0x80000u    /* S data at end of C data */
+static u32 TAIL_SIZE = 0x80000u;    /* S data at end of C data (svc: 0x80000, ms5: 0x20000) */
 
 static u8 T0_03[256], T0_12[256], T1_03[256], T1_12[256];
 static u8 A8_1[256], A8_2[256], A16_1[256], A16_2[256], A0[256];
@@ -328,11 +328,13 @@ static void usage(void)
     puts("svcenc - SVC Chaos plaintext C-ROM -> JAMMA PCB encrypted C-ROM\n"
          "\n"
          "  svcenc selftest [-k KEY]\n"
+         "  (use -g ms5 for Metal Slug 5; default is svc)\n"
          "  svcenc enc [options] region.bin            (64MB plaintext, MAME sprite-region layout)\n"
          "  svcenc enc [options] c1 c2 c3 c4 c5 c6 c7 c8   (8 x 8MB MVS-style plaintext, c1/c2 byte-interleaved ...)\n"
          "\n"
          "options:\n"
-         "  -k HEX     CMC50 extra xor key (default 57)\n"
+         "  -g GAME    svc (default; key 57, S tail 0x80000) or ms5 (key 19, S tail 0x20000)\n"
+         "  -k HEX     override CMC50 extra xor key\n"
          "  -f FMT     output: word32 (4 x 16MB, svcpcba/MS5-style, default)\n"
          "                     linear (2 x 32MB, svcpcb)\n"
          "                     raw    (1 x 64MB)\n"
@@ -341,13 +343,14 @@ static void usage(void)
 
 int main(int argc, char **argv)
 {
-    u32 key = 0x57; int fmt = 0, notail = 0;
+    u32 key = 0x57; int fmt = 0, notail = 0, ms5 = 0, keyset = 0;
     if (argc < 2) { usage(); return 1; }
     crc_init(); init_luts();
     const char *cmd = argv[1];
     char *files[16]; int nf = 0;
     for (int i = 2; i < argc; i++) {
-        if (!strcmp(argv[i], "-k") && i + 1 < argc) key = (u32)strtoul(argv[++i], NULL, 16);
+        if (!strcmp(argv[i], "-k") && i + 1 < argc) { key = (u32)strtoul(argv[++i], NULL, 16); keyset = 1; }
+        else if (!strcmp(argv[i], "-g") && i + 1 < argc) { const char *g = argv[++i]; if (!strcmp(g, "ms5")) ms5 = 1; else if (strcmp(g, "svc")) { usage(); return 1; } }
         else if (!strcmp(argv[i], "-f") && i + 1 < argc) {
             const char *f = argv[++i];
             fmt = !strcmp(f, "word32") ? 0 : !strcmp(f, "linear") ? 1 : !strcmp(f, "raw") ? 2 : -1;
@@ -355,6 +358,7 @@ int main(int argc, char **argv)
         } else if (!strcmp(argv[i], "-n")) notail = 1;
         else if (nf < 16) files[nf++] = argv[i];
     }
+    if (ms5) { if (!keyset) key = 0x19; TAIL_SIZE = 0x20000u; if (fmt == 1) { fprintf(stderr, "ms5: -f linear is not defined for ms5pcb; use word32\n"); return 1; } }
     if (!strcmp(cmd, "selftest")) return selftest(key);
     if (strcmp(cmd, "enc") || (nf != 1 && nf != 8)) { usage(); return 1; }
 
@@ -373,7 +377,7 @@ int main(int argc, char **argv)
             free(a); free(b);
         }
     }
-    printf("key = %02x, tail conversion = %s\n", key, notail ? "off" : "on");
+    printf("game = %s, key = %02x, tail = 0x%x, tail conversion = %s\n", ms5 ? "ms5" : "svc", key, TAIL_SIZE, notail ? "off" : "on");
 
     if (!notail)
         for (size_t i = SPR_SIZE - TAIL_SIZE; i < SPR_SIZE; i++) rom[i] = finv[rom[i]];
@@ -386,7 +390,9 @@ int main(int argc, char **argv)
     if (fmt == 1) {
         return !(write_file("269-c1.c1", rom, 0x2000000) && write_file("269-c2.c2", rom + 0x2000000, 0x2000000));
     }
-    static const char *nm[4] = {"269-c1a.c1", "269-c2a.c2", "269-c3a.c3", "269-c4a.c4"};
+    static const char *nm_svc[4] = {"269-c1a.c1", "269-c2a.c2", "269-c3a.c3", "269-c4a.c4"};
+    static const char *nm_ms5[4] = {"268-c1.c1", "268-c2.c2", "268-c3.c3", "268-c4.c4"};
+    const char **nm = ms5 ? nm_ms5 : nm_svc;
     u8 *o = malloc(0x1000000);
     for (int c = 0; c < 4; c++) {
         const u8 *base = rom + (c >> 1) * 0x2000000u;
