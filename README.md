@@ -3,8 +3,8 @@ MVS(AES)版の平文データからJAMMA版メタルスラッグ5、SNK VS CAPCO
 CROMを作成するのが目的です  
 CROM以外はMVS版の再利用で動作するので現状はその方針で行きます  
 
-**svcpcba**のセット用になります  
+デフォルトは**svcpcba**のセット用になります  
 **Steam版から抽出するならC7,C8の修正が必要です**  
-CROMの作成ではsvcpcbセットのものも作成できます  
+svcpcbセットのCROMも作成できます  
 
 動作するさせるBIOSはサンドイッチBIOSの作成が必要です
