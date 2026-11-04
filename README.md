@@ -10,6 +10,8 @@ svcpcbセットのCROMも作成できます
 
 動作するさせるBIOSはサンドイッチBIOSの作成が必要です  
 
+**CROM以外のROMは対応しておりません**  
+
 <img width="1188" height="941" alt="svcpcba1" src="https://github.com/user-attachments/assets/52b31f87-d160-477e-b527-904b6ca4cd6d" />  
 
 <img width="1188" height="941" alt="svcpcba2" src="https://github.com/user-attachments/assets/1da934c2-2c17-4ef7-9da9-a244bdf1639e" />  
